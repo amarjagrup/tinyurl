@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chilanka">
+  <link rel="stylesheet" type="text/css" href="/css/main.css" />
+ 
+  <title>URL Shortener</title>
+</head>
+<body>
+    <div class="container">
+      <h1> File Upload</h1>
+      <!-- if msg is undefined don't print any message out-->
+      <%= typeof msg != 'undefined' ? msg : '' %>
+      <form method="POST" action="/upload" enctype="multipart/form-data">
+        <div>
+            <input type="file" name="img" />
+        </div>
+        <div>
+            <input type="submit" name="btn" value="upload" />
+        </div>
+    </form>
+    <br>
+
+    <img src="<%= typeof file != 'undefined' ? file : '' %>" class="responsive-img">
+    <h3> <%= typeof msg2 != 'undefined' ? msg2 : '' %> 
+      <%= typeof val2 != 'undefined' ? val2 : '' %> </h3>
+        <!-- if val is undefined don't print tinyurl-->
+    <h3> <%= typeof msg3 != 'undefined' ? msg3 : '' %> 
+   <%= typeof val != 'undefined' ? val : '' %> </h3>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
