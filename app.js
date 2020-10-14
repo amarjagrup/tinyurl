@@ -60,8 +60,9 @@ const upload = multer({
 
 //loads index.ejs
 app.get('*', (req, res) => {
+  const index = path.join(__dirname, 'views', 'index.html');
 
-  res.render('index.ejs');
+  res.render(index);
 });
 
 //when upload button is hit the tinyurl and image is displayed. 
