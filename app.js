@@ -26,13 +26,6 @@ mongoose.connect(url, {
 })
 .catch(err => console.log(err))
 
-// const client = new MongoClient(url, { useNewUrlParser: true });
-// client.connect(err => {
-//   const collection = client.db("Url").collection("TinyUrl");
-//   // perform actions on the collection object
-//   client.close();
-// });
-
 //multer needs somewhere to store the images
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -66,7 +59,7 @@ const upload = multer({
 
 
 //loads index.ejs
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
 
   res.render('index.ejs');
 });
