@@ -1,26 +1,37 @@
-//lines 2 to 10 allow the use of packages. 
+//lines 2 to 15 allow the use of packages. 
 const express = require('express');
 const path = require('path');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+dotenv.config();
 const port = process.env.PORT || 3000;
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/url";
+const url = "mongodb+srv://"+`${process.env.UNAME}`+":user@cluster0.dmjg9.gcp.mongodb.net/"
++`${process.env.DATABASE}`+"?retryWrites=true&w=majority";
 const multer  = require('multer');
 const shortid = require("shortid");
 const ejs = require('ejs');
-
 //set the template engine to ejs
 app.set('view engine', 'ejs');
 
 app.use(express.static( path.join(__dirname, "/public")));
 
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log('MongoDB Connected…')
+})
+.catch(err => console.log(err))
 
-MongoClient.connect(url, {useUnifiedTopology: true}, function(err, client) {
-  
-  console.log("Connected successfully to server");
- 
-  const db = client.db('url');
-});
+// const client = new MongoClient(url, { useNewUrlParser: true });
+// client.connect(err => {
+//   const collection = client.db("Url").collection("TinyUrl");
+//   // perform actions on the collection object
+//   client.close();
+// });
 
 //multer needs somewhere to store the images
 const storage = multer.diskStorage({
@@ -86,7 +97,7 @@ app.post('/upload', (req, res) => {
         MongoClient.connect(url, {useUnifiedTopology: true}, function(err, client) {
           const db = client.db('url');
            db.collection("TinyUrl").insertOne(img, function(err, res) {
-          if (err) throw err;
+          if (err) throw err 
           client.close();
            })
         })
