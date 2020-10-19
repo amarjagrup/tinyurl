@@ -1,4 +1,4 @@
-//lines 2 to 16 allow the use of packages. 
+//lines 2 to 14 allow the use of packages. 
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
