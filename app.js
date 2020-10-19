@@ -103,7 +103,7 @@ app.post('/upload', (req, res) => {
           msg: 'File Uploaded!',
           file:`uploads/${req.file.filename}`,
           msg2: "orginal url is ",
-          val2:  `${val['path']}`,
+          val2:  "https://"+ "urlshortner.com/"+`${val['originalname']}`,
           val: "https://"+ "urlshortner.com/"+`${val['tinyUrl']}`,
           msg3: 'Tiny url is '
         });
