@@ -1,4 +1,4 @@
-//lines 2 to 14 allow the use of packages. 
+//lines 2 to 13 allow the use of packages. 
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
@@ -10,12 +10,10 @@ const MongoClient = require('mongodb').MongoClient;
 const multer  = require('multer');
 const shortid = require("shortid");
 const ejs = require('ejs');
-const sharp = require('sharp');
 const fs = require('fs');
 //set the template engine to ejs
 app.set('view engine', 'ejs');
 app.use(express.static( path.join(__dirname, "/public")));
-
 //connect to database
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/url', {
   useNewUrlParser: true,
@@ -82,15 +80,7 @@ app.post('/upload', (req, res) => {
         const newFile= req.file.originalname
         
         //resize the image 
-        sharp(req.file.path).resize(500,500)
-        .jpeg({quality: 50})
-        .toFile( path.join(__dirname,'/public/uploads/') +newFile, (err, resizeImage) => {
-          if (err) {
-              console.log(err);
-          } else {
-              console.log(resizeImage);
-          }
-        })
+     
         const img= {
           contentType: req.file.mimetype,
           originalname: req.file.originalname,
@@ -113,7 +103,7 @@ app.post('/upload', (req, res) => {
 
         res.render('index', {
           msg: 'File Uploaded!',
-          file:`uploads/${req.file.originalname}`,
+          file:`uploads/${req.file.filename}`,
           msg2: "orginal url is ",
           val2:  `${val['path']}`,
           val: "https://"+ "urlshortner.com/"+`${val['tinyUrl']}`,
