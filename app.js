@@ -101,7 +101,7 @@ app.post('/upload', (req, res) => {
         MongoClient.connect(process.env.MONGO_URI, {useUnifiedTopology: true}, function(err, client) {
           const db = client.db(process.env.DATABASE);
            db.collection(process.env.COLLECTIONS).insertOne(img, function(err, res) {
-          if (err) throw err 
+          if (err) {throw err} 
           client.close();
            })
         })
