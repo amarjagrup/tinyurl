@@ -99,7 +99,7 @@ app.post('/upload', (req, res) => {
         };
         //add data to database
         MongoClient.connect(process.env.MONGO_URI, {useUnifiedTopology: true}, function(err, client) {
-          const db = client.db('url');
+          const db = client.db(process.env.DATABASE);
            db.collection("TinyUrl").insertOne(img, function(err, res) {
           if (err) throw err 
           client.close();
