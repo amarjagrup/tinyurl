@@ -19,7 +19,7 @@ app.set('view engine', 'ejs');
 app.use(express.static( path.join(__dirname, "/public")));
 
 //connect to database
-mongoose.connect(url, {
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/url', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -108,6 +108,7 @@ app.post('/upload', (req, res) => {
            })
         })
         
+
         const str = JSON.stringify(img)
         const val = JSON.parse(str)
 
