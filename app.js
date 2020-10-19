@@ -78,9 +78,7 @@ app.post('/upload', (req, res) => {
 
         const userId = shortid.generate(req.file.path); 
         const newFile= req.file.originalname
-        
-        //resize the image 
-     
+             
         const img= {
           contentType: req.file.mimetype,
           originalname: req.file.originalname,
