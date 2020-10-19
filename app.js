@@ -4,7 +4,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 dotenv.config();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const multer  = require('multer');
