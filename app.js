@@ -7,8 +7,6 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb+srv://"+`${process.env.UNAME}`+":user@cluster0.dmjg9.gcp.mongodb.net/"
-+`${process.env.DATABASE}`+"?retryWrites=true&w=majority";
 const multer  = require('multer');
 const shortid = require("shortid");
 const ejs = require('ejs');
@@ -100,7 +98,7 @@ app.post('/upload', (req, res) => {
           tinyUrl:userId
         };
         //add data to database
-        MongoClient.connect(url, {useUnifiedTopology: true}, function(err, client) {
+        MongoClient.connect(process.env.MONGO_URI, {useUnifiedTopology: true}, function(err, client) {
           const db = client.db('url');
            db.collection("TinyUrl").insertOne(img, function(err, res) {
           if (err) throw err 
