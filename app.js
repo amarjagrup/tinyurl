@@ -101,11 +101,11 @@ app.post('/upload', (req, res) => {
         };
         //add data to database
         MongoClient.connect(url, {useUnifiedTopology: true}, function(err, client) {
-          // const db = client.db('url');
-          //  db.collection("TinyUrl").insertOne(img, function(err, res) {
-          // if (err) throw err 
-          // client.close();
-          //  })
+          const db = client.db('url');
+           db.collection("TinyUrl").insertOne(img, function(err, res) {
+          if (err) throw err 
+          client.close();
+           })
         })
         
         const str = JSON.stringify(img)
