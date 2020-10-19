@@ -1,4 +1,4 @@
-//lines 2 to 15 allow the use of packages. 
+//lines 2 to 16 allow the use of packages. 
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
@@ -12,11 +12,13 @@ const url = "mongodb+srv://"+`${process.env.UNAME}`+":user@cluster0.dmjg9.gcp.mo
 const multer  = require('multer');
 const shortid = require("shortid");
 const ejs = require('ejs');
+const sharp = require('sharp');
+const fs = require('fs');
 //set the template engine to ejs
 app.set('view engine', 'ejs');
-
 app.use(express.static( path.join(__dirname, "/public")));
 
+//connect to database
 mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -77,15 +79,26 @@ app.post('/upload', (req, res) => {
           msg: 'Error: No File Selected!'
         });
       } else {
-        const userId = shortid.generate(req.file.path); 
 
+        const userId = shortid.generate(req.file.path); 
+        const newFile= req.file.originalname
+        
+        //resize the image 
+        sharp(req.file.path).resize(500,500)
+        .jpeg({quality: 50})
+        .toFile( path.join(__dirname,'/public/uploads/') +newFile, (err, resizeImage) => {
+          if (err) {
+              console.log(err);
+          } else {
+              console.log(resizeImage);
+          }
+        })
         const img= {
           contentType: req.file.mimetype,
           originalname: req.file.originalname,
           path: req.file.path,
           tinyUrl:userId
         };
-        console.log(img)
         //add data to database
         MongoClient.connect(url, {useUnifiedTopology: true}, function(err, client) {
           const db = client.db('url');
@@ -97,17 +110,21 @@ app.post('/upload', (req, res) => {
         
         const str = JSON.stringify(img)
         const val = JSON.parse(str)
-        console.log(req.file.filename)
+
+
         res.render('index', {
           msg: 'File Uploaded!',
-          file:`uploads/${req.file.filename}`,
+          file:`uploads/${req.file.originalname}`,
           msg2: "orginal url is ",
-          val2: `${val['path']}`,
-          val: `${val['tinyUrl']}`,
+          val2:  `${val['path']}`,
+          val: "https://"+ "urlshortner.com/"+`${val['tinyUrl']}`,
           msg3: 'Tiny url is '
         });
+
       }
     }
   });
+  
 });
+
 app.listen(port,() => console.log(`Listening on port ${port}...`))
