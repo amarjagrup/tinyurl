@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.use(express.static( path.join(__dirname, "/public")));
 
 //connect to database
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/url', {
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/url', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
